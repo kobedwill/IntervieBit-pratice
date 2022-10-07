@@ -1,0 +1,57 @@
+ListNode* Solution::addTwoNumbers(ListNode* A, ListNode* B) { 
+    if(A == NULL) return B;
+    if(B == NULL) return A;
+    int carry = 0, sumofelement = 0;
+    ListNode* sum = NULL;
+    ListNode* ans;
+    while(A != NULL && B != NULL){
+        sumofelement = A->val + B->val + carry;
+        int value = sumofelement%10;
+        carry = sumofelement/10;
+        ListNode* store = new ListNode(value);
+        
+        if(sum == NULL){
+            sum = store;
+            ans = sum;
+        }
+        else{
+            sum->next = store;
+            sum = store;
+        }   
+        A = A->next;
+        B = B->next;
+
+    }
+    while(A != NULL){
+        sumofelement = A->val + carry;
+        int value = sumofelement%10;
+        carry = sumofelement/10;
+        ListNode* store = new ListNode(value);
+            
+        sum->next = store;
+        sum = store;       
+        A = A->next;
+        }        
+    
+
+    while(B != NULL){
+        sumofelement = B->val + carry;
+        int value = sumofelement%10;
+        carry = sumofelement/10;
+        ListNode* store = new ListNode(value);
+            
+        sum->next = store;
+        sum = store;     
+        B = B->next;        
+    }        
+    
+
+    if(carry != 0){
+        ListNode* store = new ListNode(carry);
+        
+        sum->next = store;
+        sum = store;
+    }
+    
+    return ans;
+}

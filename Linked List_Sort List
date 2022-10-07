@@ -1,0 +1,58 @@
+ListNode* merge(ListNode* A, ListNode* B){                    // merge two sorted lists
+    if(A == NULL) return B;
+    if(B == NULL) return A;
+    ListNode* connect = NULL;
+    if(A->val > B->val){
+        connect = B;
+        B = B->next;
+    }
+    else{
+        connect = A;
+        A = A->next;
+    } 
+    ListNode* temp = connect;
+    while(A&&B){
+        if(A->val > B->val){
+            temp->next = B;
+            B = B->next;
+            temp = temp->next;
+        }
+        else{
+            temp->next = A;
+            A = A->next;
+            temp = temp->next;
+        }
+    }
+    while(A){
+            temp->next = A;
+            A = A->next;
+            temp = temp->next;
+    }
+    while(B){
+            temp->next = B;
+            B = B->next;
+            temp = temp->next;
+    }
+    return connect;
+}
+
+ListNode* getMid( ListNode* A) {                        // find the mid point of list
+    ListNode* midPrev = nullptr;
+    while (A && A->next) {
+        midPrev = (midPrev == nullptr) ? A : midPrev->next;
+        A = A->next->next;
+    }
+    ListNode* mid = midPrev->next;
+    midPrev->next = nullptr;                            // to cut the first left half 
+    return mid;
+}
+
+ListNode* Solution::sortList(ListNode* A) {
+    if(A == NULL || A->next == NULL) return A;
+    
+    ListNode* mid = getMid(A);
+    ListNode* left = sortList(A);                       // sort first half
+    ListNode* right = sortList(mid);                    // sort second half
+    
+    return merge(left, right);                          // merge two sorted list
+}

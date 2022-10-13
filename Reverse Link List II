@@ -1,0 +1,41 @@
+ListNode* Solution::reverseBetween(ListNode* A, int B, int C) {  
+    ListNode* curr = A;
+    ListNode* end = A;
+    if(B==C) return A;                                // B == C --> no reverse
+    int bc = C-B, b = B;
+    while(C>0){
+        end = end->next;                              // first go to keep the location of node one step behind position C 
+        C--;
+    }
+        ListNode* temp1;   
+    if(B == 1){                                       // if B = 1, start reverse from head of list
+        temp1 = curr;
+    }
+    else{
+            while(B>2){
+            curr = curr->next;
+            B--;
+        }
+        temp1 = curr;                                 // keep the location on step ahead of position B
+        curr = curr->next;
+    }
+    ListNode* dummy = new ListNode(0);                
+    ListNode* temp = curr;
+    dummy->next = curr;
+    ListNode* prev = dummy;
+    ListNode* next;
+    while(bc>=0){                                     // do reverse within B~C
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+        bc--;
+    }
+    temp->next = end;                                 // revered node end connect to end node( one step behind position C)
+    if(b != 1){                                       // if reverse isn't started from beginn, the node one step ahead of position B need to connect to new reversed listB~C
+        temp1->next = prev;
+        return A;        
+    }
+    else                                            // if reverse started from head, just return new reversed list
+        return prev;
+}

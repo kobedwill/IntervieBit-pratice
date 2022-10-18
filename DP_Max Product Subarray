@@ -1,0 +1,17 @@
+int Solution::maxProduct(const vector<int> &A) {
+    int n = A.size();
+    if(n==0) return 0;
+    if(n==1) return A[0];
+    
+    int max_now = A[0], min_now = A[0];
+    int max_res = INT_MIN;
+    
+    for(int i = 1;i<n; i++){                                // keep to track biggest and smallest
+        int temp = max_now;                                 // smallest may become greatest, when it times a negative number
+        max_now = max({A[i], max_now*A[i], min_now*A[i]});
+        min_now = min({A[i], temp*A[i], min_now*A[i]});
+        max_res = max(max_res, max_now);
+    }
+    
+    return max_res;
+}

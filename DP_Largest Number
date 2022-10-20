@@ -1,0 +1,31 @@
+Given a list of non negative integers, arrange them such that they form the largest number.
+
+For example:
+
+Given [3, 30, 34, 5, 9], the largest formed number is 9534330.
+
+Note: The result may be very large, so you need to return a string instead of an integer.
+
+
+
+
+bool compare(string A, string B){                                  // to sort the array size for example: A = "98" B = "9" A+B = "989" B+A = "998" B+A > A+B--> B should be put before A 
+    return A+B > B+A;
+}
+
+string Solution::largestNumber(const vector<int> &A) {
+    vector<string> temp;
+    int n = A.size();
+    for(int i = 0; i<n; i++){                                      // turn all number into string
+        temp.push_back(to_string(A[i]));
+    }
+    string ans;
+    sort(temp.begin(),temp.end(), compare);                        // sort this array
+    
+    for(int i= 0; i<n; i++){                                       // connect them together
+        ans+=temp[i];
+    }
+    if(ans[0] == '0')                                              
+        return "0";
+    return ans;
+}

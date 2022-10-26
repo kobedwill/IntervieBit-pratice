@@ -1,0 +1,36 @@
+Given a collection of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
+
+Each number in C may only be used once in the combination.
+
+
+
+
+
+
+void helper(vector<int> &A, vector<vector<int>> &ans, vector<int> &record, int sum, int start){
+    if(sum == 0){
+        ans.push_back(record);              // if the sum reach 0, means the combination reach the target
+        return;
+    }
+    for(int i = start; i<A.size(); i++){
+        sum-=A[i];                                      
+        if(sum >= 0){                       // if sum >=0, need to put the element into record
+            record.push_back(A[i]);
+            helper(A, ans, record, sum, i+1);
+            record.pop_back();              // backtracking         
+        }
+        sum+=A[i];                          // backtracking
+        while(i+1 != A.size() && A[i+1] == A[i]) i++;   // same value element must be ignored, otherwise it will have repeat answer
+    }
+}
+vector<vector<int> > Solution::combinationSum(vector<int> &A, int B) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    vector<vector<int>> ans;
+    vector<int> record;
+    sort(A.begin(), A.end());               // first sort array --> easier to check repeat element
+    helper(A, ans, record, B, 0);
+    return ans;
+}

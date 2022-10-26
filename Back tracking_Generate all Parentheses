@@ -1,0 +1,25 @@
+/*void generateParenthesishelp(vector<string> &ans, string str ,int n, int m){
+    if(n == 0 && m == 0){
+        ans.push_back(str);
+    }
+    if(n>0) generateParenthesishelp(ans, str+"(", n-1, m+1);
+    if(m>0) generateParenthesishelp(ans, str+")", n, m-1);
+}*/
+
+void generateParenthesishelp(vector<string> &ans, string str , int length, int n, int m){   // starting count from no "(" and ")",  
+    if(str.size() == length*2) {                                                            // termination trigger when length of string reach given condition
+        ans.push_back(str);
+    }
+    if(n < length) generateParenthesishelp(ans, str + "(", length, n+1, m);                 // if "(" number is smaller than length, add "(" to do recursion
+    if(m < n) generateParenthesishelp(ans, str + ")", length, n, m+1);                      // if ")" number is smaller than "(", than add ")"
+}
+
+vector<string> Solution::generateParenthesis(int A) {
+    vector<string> ans;
+    string str;
+    
+    generateParenthesishelp(ans, str, A, 0, 0);
+    
+    //generateParenthesishelp(ans, str, A, 0);
+    return ans;
+}

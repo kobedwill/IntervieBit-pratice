@@ -1,0 +1,93 @@
+Given a set of distinct integers, S, return all possible subsets.
+
+    Note:
+
+        Elements in a subset must be in non-descending order.
+        The solution set must not contain duplicate subsets.
+        Also, the subsets should be sorted in ascending ( lexicographic ) order.
+        The list is not necessarily sorted.
+
+Example :
+
+If S = [1,2,3], a solution is:
+
+[
+  [],
+  [1],
+  [1, 2],
+  [1, 2, 3],
+  [1, 3],
+  [2],
+  [2, 3],
+  [3],
+]
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void helper(vector<vector<int>> &ans, vector<int> &record, vector<int> A, int start){
+    ans.push_back(record);
+    
+    for(int i = start; i<A.size(); i++){
+        record.push_back(A[i]);
+        helper(ans, record, A, i+1);
+        record.pop_back();
+    }
+}
+
+
+vector<vector<int> > Solution::subsets(vector<int> &A) {
+    vector<vector<int>> ans;
+    vector<int> record;
+    sort(A.begin(), A.end());
+    helper(ans, record, A, 0);
+    
+    return ans;
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Given a collection of integers that might contain duplicates, S, return all possible subsets.
+
+    Note:
+
+        Elements in a subset must be in non-descending order.
+        The solution set must not contain duplicate subsets.
+        The subsets must be sorted lexicographically.
+
+Example :
+
+If S = [1,2,2], the solution is:
+
+[
+[],
+[1],
+[1,2],
+[1,2,2],
+[2],
+[2, 2]
+]
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void helper (vector<vector<int>> &ans, vector<int> &record, vector<int> A, int start){
+    ans.push_back(record);
+    
+    for(int i = start; i<A.size(); i++){
+        record.push_back(A[i]);
+        helper(ans, record, A, i+1);
+        record.pop_back();
+        
+        while(i+1 < A.size() && A[i] == A[i+1]) i++;                 // when meets the duplicated number, passes it
+    }
+}
+
+vector<vector<int> > Solution::subsetsWithDup(vector<int> &A) {
+    vector<vector<int>> ans;
+    vector<int> record;
+    sort(A.begin(), A.end());
+    
+    helper(ans, record, A, 0);
+    
+    return ans;
+}

@@ -1,0 +1,44 @@
+Problem Description
+
+Given an directed graph having A nodes labelled from 1 to A containing M edges given by matrix B of size M x 2such that there is a edge directed from node
+
+B[i][0] to node B[i][1].
+
+Find whether a path exists from node 1 to node A.
+
+Return 1 if path exists else return 0.
+
+NOTE:
+
+    There are no self-loops in the graph.
+    There are no multiple edges between two nodes.
+    The graph may or may not be connected.
+    Nodes are numbered from 1 to A.
+    Your solution will run on multiple test cases. If you are using global variables make sure to clear them.
+
+
+
+bool isPath(int start, int target, vector<int> adj[], vector<bool> &visited){
+    visited[start] = true;
+    
+    for(int child: adj[start]){
+        if(child == target) return true;
+        
+        if(visited[child] == false && isPath(child, target, adj, visited))
+            return true;
+    }
+    return false;
+}
+
+
+int Solution::solve(int A, vector<vector<int> > &B) {
+    int n = B.size();
+    vector<int> adj[A+1];                      // build adjlink
+    for(int i = 0; i<n; i++){
+        int j = B[i][0];    
+        int k = B[i][1];
+        adj[j].push_back(k);
+    }
+    vector<bool> visited(A+1, false);           // record visited node 
+    return isPath(1, A, adj, visited);
+}
